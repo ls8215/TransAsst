@@ -22,9 +22,24 @@
 - 如果使用Chrome浏览器，复制```chrome://extensions```到浏览器地址栏，在键盘上按下**回车键**，在页面**右上角**打开**开发者模式**。
 4. 在eLuna中使用该脚本
 - 随意选中一个句段，点击译文栏，点击**show more**
-- 在术语表右边上下箭头的下方，有一个新增的按钮，点击即可将原文和术语复制到剪贴板。见下图：
+- 在术语表右边上下箭头的下方，有一个新增的按钮，见下图：
   <img width="788" height="341" alt="image" src="https://github.com/user-attachments/assets/bd903ea0-9260-45ec-9c40-2fdf3c550c8b" />
-
+- 点击该按钮，就会将原文和术语复制到剪贴板，然后就可以在其他地方粘贴。复制格式如下：
+  ```
+   原文：The closing session was open to all Member States, drawing significant attention and engagement.
+   
+   术语：
+   closing 结算
+   closing 结账
+   closing 结转
+   session 届会
+   Member State 会员国
+   significant [统计]显著的
+   significant 值得考虑的
+   significant 有意义的
+   significant 有效的
+   significant 重要的
+  ```
 ## 三、安全说明
 **CopyAsst** 是一个纯前端的浏览器辅助脚本，它不会上传、存储或修改任何用户数据。所有操作都在本地浏览器中完成。
 ### 本脚本会做的事
