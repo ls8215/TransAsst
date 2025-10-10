@@ -13,10 +13,10 @@
   'use strict';
 
   const CONTAINER_SELECTOR = '#searchResultsRow > td > div > div > div.arrows.col-md-1';
-  const BTN_CLASS = 'transasst-tbtn';
+  const BTN_CLASS = 'CopyAsst-tbtn';
 
-  window.TransAsstTerms = [];
-  window.TransAsstSourceText = '';
+  window.CopyAsstTerms = [];
+  window.CopyAsstSourceText = '';
 
   function createClipboardIcon() {
     // 使用简洁的“剪贴板”SVG图标
@@ -68,9 +68,9 @@
     // 使用 <button> 语义更清晰，可聚焦，不依赖站点 CSS
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.setAttribute('aria-label', 'TransAsst – extract & copy');
+    btn.setAttribute('aria-label', 'CopyAsst – extract & copy');
     btn.className = BTN_CLASS;
-    btn.title = 'Extract & copy (TransAsst)';
+    btn.title = 'Extract & copy (CopyAsst)';
     btn.appendChild(createClipboardIcon());
 
     // 尽量贴合现有箭头按钮的尺寸与间距
@@ -134,8 +134,8 @@
           });
         }
       }
-      window.TransAsstTerms = pairs;
-      console.log(`[TransAsst] 已找到${pairs.length}条术语`);
+      window.CopyAsstTerms = pairs;
+      console.log(`[CopyAsst] 已找到${pairs.length}条术语`);
 
       // ========== 2) 获取当前激活句段原文 ==========
       const activeRow =
@@ -151,8 +151,8 @@
           sourceText = contentEl.textContent.replace(/\s+/g, ' ').trim();
         }
       }
-      window.TransAsstSourceText = sourceText;
-      console.log(`[TransAsst] 已找到原文：${sourceText}`);
+      window.CopyAsstSourceText = sourceText;
+      console.log(`[CopyAsst] 已找到原文：${sourceText}`);
 
       // ========== 3) 拼接并复制到剪贴板 ==========
       let textToCopy = `原文：${sourceText}\n\n术语：\n`;
@@ -164,9 +164,9 @@
 
       try {
         await navigator.clipboard.writeText(textToCopy);
-        console.log('[TransAsst] 已复制到剪贴板');
+        console.log('[CopyAsst] 已复制到剪贴板');
       } catch (err) {
-        console.error('[TransAsst] 写入剪贴板失败：', err);
+        console.error('[CopyAsst] 写入剪贴板失败：', err);
       }
     });
 
