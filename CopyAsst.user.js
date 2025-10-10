@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CopyAsst
 // @namespace    http://www.shuangluo.fun
-// @version      1.0
+// @version      1.0.0
 // @description  This is a userscript for Tampermonkey. It extract the active source text segment and its terminology pairs, and copy them to clipboard.
 // @match        https://conferences.unite.un.org/eluna/*
 // @author       shuangluo
