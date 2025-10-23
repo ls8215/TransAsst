@@ -101,7 +101,9 @@
   }
   // 获取 DeepSeek 模型名称
   function getModel() {
-    return (storage.get(MODEL_KEY, "deepseek-chat") || "deepseek-chat").trim();
+    const stored = storage.get(MODEL_KEY, "deepseek-chat");
+    const trimmed = (stored || "").trim();
+    return trimmed || "deepseek-chat";
   }
   // 设置 DeepSeek 模型名称
   function setModel(v) {
@@ -120,7 +122,7 @@
   }
   // 获取用户前置提示
   function getPre() {
-    return storage.get(PRE_KEY, "请将下面原文翻译为中文：");
+    return storage.get(PRE_KEY, "");
   }
   // 设置用户前置提示
   function setPre(v) {
@@ -174,7 +176,11 @@
 <style>body{font:14px/1.4 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial;padding:16px 18px;color:#222}
 .wrap{max-width:880px;margin:0 auto}h1{font-size:18px;margin:0 0 12px}
 label{display:block;margin:10px 0 4px;color:#444}
-input[type=text],input[type=password],input[type=number],textarea{width:100%;padding:8px;border:1px solid #ddd;border-radius:6px}
+input[type=text],input[type=password],input[type=number],textarea,select{width:100%;min-width:0;box-sizing:border-box;display:block;padding:8px;border:1px solid #ddd;border-radius:6px;background:#fff}
+#p,#s{resize:vertical}
+#s{height:350px;min-height:350px}
+#p{height:100px;min-height:100px}
+select{height:34px}
 .row{display:grid;grid-template-columns:180px 1fr;gap:10px;align-items:center}.grid{display:grid;gap:10px}
 .btns{margin-top:14px;display:flex;gap:8px}button{border:0;border-radius:6px;padding:8px 12px;cursor:pointer}
 .primary{background:#0d6efd;color:#fff}.muted{background:#eee}.danger{background:#f8d7da;color:#842029}.hint{color:#666;margin-top:8px}
@@ -182,7 +188,7 @@ input[type=text],input[type=password],input[type=number],textarea{width:100%;pad
 <h1>TransAsst Settings</h1>
 <div class="grid">
   <div class="row"><label>DeepSeek API Key</label><input id="k" type="password"/></div>
-  <div class="row"><label>Model</label><input id="m" type="text" placeholder="deepseek-chat"/></div>
+  <div class="row"><label>Model</label><select id="m"><option value="deepseek-chat" selected>deepseek-chat</option></select></div>
   <div class="row"><label>System Prompt</label><textarea id="s" rows="3"></textarea></div>
   <div class="row"><label>User Prompt</label><textarea id="p" rows="2"></textarea></div>
   <div class="row"><label>Temperature (0–2)</label><input id="t" type="number" min="0" max="2" step="0.1"/></div>
@@ -286,7 +292,7 @@ input[type=text],input[type=password],input[type=number],textarea{width:100%;pad
         { role: "system", content: getSys() },
         {
           role: "user",
-          content: [getPre(), "", `【术语对照】\n${termsBlock}`, "", `【原文】\n${text}`].join(
+          content: [getPre(), "", `请将下面原文翻译为中文：【术语对照】\n${termsBlock}`, "", `【原文】\n${text}`].join(
             "\n"
           ),
         },
@@ -386,7 +392,7 @@ input[type=text],input[type=password],input[type=number],textarea{width:100%;pad
   function writeTranslation(row, zh) {
     const td = row?.querySelector("td.translation.chinese") || row?.querySelector("td.translation");
     if (!td) return false;
-    const label = "DeepSeek翻译：";
+    const label = "";
 
     // 优先编辑区
     const editable = td.querySelector('div.textarea[contenteditable="true"]');
