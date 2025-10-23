@@ -86,7 +86,7 @@
   const API_KEY = "TransAsst_ApiKey";
   const MODEL_KEY = "TransAsst_Model";
   const SYS_KEY = "TransAsst_Sys";
-  const PRE_KEY = "TransAsst_Pre";
+  const RULES_KEY = "TransAsst_Pre";
   const TEMP_KEY = "TransAsst_Temp";
   const TOPP_KEY = "TransAsst_TopP";
   const MAXTOK_KEY = "TransAsst_MaxTok";
@@ -111,27 +111,24 @@
   }
   // 获取 system prompt
   function getSys() {
-    return storage.get(
-      SYS_KEY,
-      "You are a professional UN Chinese translator. Output only the translation."
-    );
+    return storage.get(SYS_KEY, "");
   }
   // 设置 system prompt
   function setSys(v) {
     storage.set(SYS_KEY, v || "");
   }
-  // 获取用户前置提示
-  function getPre() {
-    return storage.get(PRE_KEY, "");
+  // 获取项目指示
+  function getProjectRules() {
+    return storage.get(RULES_KEY, "");
   }
-  // 设置用户前置提示
-  function setPre(v) {
-    storage.set(PRE_KEY, v || "");
+  // 设置项目指示
+  function setProjectRules(v) {
+    storage.set(RULES_KEY, v || "");
   }
   // 获取 temperature 设置
   function getTemp() {
-    const x = parseFloat(storage.get(TEMP_KEY, "0.2"));
-    return clamp(isNaN(x) ? 0.2 : x, 0, 2);
+    const x = parseFloat(storage.get(TEMP_KEY, "1"));
+    return clamp(isNaN(x) ? 1 : x, 0, 2);
   }
   // 设置 temperature
   function setTemp(v) {
@@ -148,8 +145,8 @@
   }
   // 获取最大 tokens 设置
   function getMaxTok() {
-    const x = parseInt(storage.get(MAXTOK_KEY, "800"), 10);
-    return Math.max(1, isNaN(x) ? 800 : x);
+    const x = parseInt(storage.get(MAXTOK_KEY, "2000"), 10);
+    return Math.max(1, isNaN(x) ? 2000 : x);
   }
   // 设置最大 tokens
   function setMaxTok(v) {
@@ -163,7 +160,7 @@
       apiKey: getKey(),
       model: getModel(),
       sys: getSys(),
-      pre: getPre(),
+      rules: getProjectRules(),
       temp: getTemp(),
       topp: getTopP(),
       maxtok: getMaxTok(),
@@ -177,9 +174,9 @@
 .wrap{max-width:880px;margin:0 auto}h1{font-size:18px;margin:0 0 12px}
 label{display:block;margin:10px 0 4px;color:#444}
 input[type=text],input[type=password],input[type=number],textarea,select{width:100%;min-width:0;box-sizing:border-box;display:block;padding:8px;border:1px solid #ddd;border-radius:6px;background:#fff}
-#p,#s{resize:vertical}
+#rules,#s{resize:vertical}
 #s{height:350px;min-height:350px}
-#p{height:100px;min-height:100px}
+#rules{height:100px;min-height:100px}
 select{height:34px}
 .row{display:grid;grid-template-columns:180px 1fr;gap:10px;align-items:center}.grid{display:grid;gap:10px}
 .btns{margin-top:14px;display:flex;gap:8px}button{border:0;border-radius:6px;padding:8px 12px;cursor:pointer}
@@ -189,8 +186,19 @@ select{height:34px}
 <div class="grid">
   <div class="row"><label>DeepSeek API Key</label><input id="k" type="password"/></div>
   <div class="row"><label>Model</label><select id="m"><option value="deepseek-chat" selected>deepseek-chat</option></select></div>
-  <div class="row"><label>System Prompt</label><textarea id="s" rows="3"></textarea></div>
-  <div class="row"><label>User Prompt</label><textarea id="p" rows="2"></textarea></div>
+  <div class="row"><label>System Prompt</label><textarea id="s" rows="3" placeholder="说明角色定位和总体输出原则。例如：
+
+  1. **严格使用用户提供的术语***，如果用户提供的术语对应多个译法，要结合句子从中选择最合适的译法。不能添加术语里没有的词语。如果原文术语里没有括号和简称，则不能擅自添加括号和简称。
+  2. **符合标点和数字规范。**
+    - **使用半角括号()**，严禁使用全角括号（）。
+    - 纯属计量或统计的数字一律用阿拉伯数字表示，数字分组以空格代替逗号，万以上用“万”“亿”等中文单位，百分数并列时“%”不省，例如：**123,456,023 → 123 456 023；fifty million → 5 000万；1-2 per cent → 1%-2 %；five percentage points → 5个百分点。**
+  3. 请直接输出译文，不要做解释、分析或讨论。  
+    "></textarea></div>
+  <div class="row"><label>Project Rules</label><textarea id="rules" rows="2" placeholder="填写项目特定要求、格式规则。例如，在处理简要记录时，可以在这里写：
+  
+  1. 句首人名不翻译。
+  2. said翻译成说。
+  "></textarea></div>
   <div class="row"><label>Temperature (0–2)</label><input id="t" type="number" min="0" max="2" step="0.1"/></div>
   <div class="row"><label>Top_p (0–1)</label><input id="tp" type="number" min="0" max="1" step="0.05"/></div>
   <div class="row"><label>Max tokens</label><input id="mx" type="number" min="1" step="1"/></div>
@@ -204,12 +212,12 @@ select{height:34px}
   $('k').value = initial.apiKey || '';
   $('m').value = initial.model || 'deepseek-chat';
   $('s').value = initial.sys || '';
-  $('p').value = initial.pre || '';
+  $('rules').value = initial.rules || '';
   $('t').value = initial.temp;
   $('tp').value = initial.topp;
   $('mx').value = initial.maxtok;
   $('save').onclick = () => {
-    const payload = { type:'TransAsstSettings', data:{ apiKey:$('k').value, model:$('m').value, sys:$('s').value, pre:$('p').value, temp:$('t').value, topp:$('tp').value, maxtok:$('mx').value } };
+    const payload = { type:'TransAsstSettings', data:{ apiKey:$('k').value, model:$('m').value, sys:$('s').value, rules:$('rules').value, temp:$('t').value, topp:$('tp').value, maxtok:$('mx').value } };
     try{ window.opener && window.opener.postMessage(payload, '*'); alert('Saved!'); }catch(e){ alert('Failed to post settings to parent.'); }
   };
   $('clear').onclick = () => { $('k').value = ''; };
@@ -257,10 +265,13 @@ select{height:34px}
     setKey(d.apiKey || "");
     setModel(d.model || "deepseek-chat");
     setSys(d.sys || "");
-    setPre(d.pre || "");
-    setTemp(d.temp || 0.2);
+    setProjectRules(d.rules || "");
+    const tempVal =
+      d.temp === undefined || d.temp === null || d.temp === "" ? 1 : parseFloat(d.temp);
+    setTemp(tempVal);
     setTopP(d.topp || 1);
-    setMaxTok(d.maxtok || 800);
+    const maxTokVal = parseInt(d.maxtok, 10);
+    setMaxTok(Number.isNaN(maxTokVal) ? 2000 : maxTokVal);
     toast("TransAsst 设置已更新");
   });
 
@@ -292,9 +303,13 @@ select{height:34px}
         { role: "system", content: getSys() },
         {
           role: "user",
-          content: [getPre(), "", `请将下面原文翻译为中文：【术语对照】\n${termsBlock}`, "", `【原文】\n${text}`].join(
-            "\n"
-          ),
+          content: [
+            getProjectRules(),
+            "",
+            `请将下面原文翻译为中文：【术语对照】\n${termsBlock}`,
+            "",
+            `【原文】\n${text}`,
+          ].join("\n"),
         },
       ],
       temperature: getTemp(),
