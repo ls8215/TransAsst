@@ -38,7 +38,14 @@
    - For example, if you are translation a SR document, you may add such rules as: `句首人名不翻译；said翻译成“说”`.
 7. `Temperature`: Yu can tweak this figure to see if the result meets your expection. The lower this figure is, the less random and creative the result will be. For translation, a figure between 1 to 1.3 will be a reasonable. 
 8. `Top_p`: Let's keep this figure unchanged.
-9. `Max tokens`: You don't need to change this figure either. Default to 2000. 
+9. `Max tokens`: You don't need to change this figure either. Default to 2000.
+## Use the script in eLuna
+1. On your eLuna page, select any segement you want to translate
+2. Click `Show more`
+3. In the UNTerm section, you will see too new buttons:<br>
+   <img width="638" height="134" alt="image" src="https://github.com/user-attachments/assets/6b027534-0f5d-43f1-97dd-5beee980ccb6" />
+4. Click `Translate` and a translation from the LLM will be added to the translation box. If you need one more version of translation, just click the button again.
+5. Click `Copy` to copy the original segment and its term pairs, so that you can paste them to other chatbots.
 # Possible Todo’s
 1. Support models from other LLM providers like OpenAI, if they are not much more expensive
 2. Provide context by sending the current segment plus several preceding and following segments to the LLM, if this helps improve translation quality.
