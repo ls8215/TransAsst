@@ -42,7 +42,7 @@
 ## Use the script in eLuna
 1. On your eLuna page, select any segement you want to translate
 2. Click `Show more`
-3. In the UNTerm section, you will see too new buttons:<br>
+3. In the UNTerm section, you will see two new buttons:<br>
    <img width="638" height="134" alt="image" src="https://github.com/user-attachments/assets/6b027534-0f5d-43f1-97dd-5beee980ccb6" />
 4. Click `Translate` and a translation from the LLM will be added to the translation box. If you need one more version of translation, just click the button again.
 5. Click `Copy` to copy the original segment and its term pairs, so that you can paste them to other chatbots.
