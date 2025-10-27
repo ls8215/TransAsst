@@ -36,7 +36,7 @@
    - Rules related to numbers and punctuations will be helpful too, such as：`**符合标点和数字规范。** - **使用半角括号()**，严禁使用全角括号（）。 - 纯属计量或统计的数字一律用阿拉伯数字表示，数字分组以空格代替逗号，万以上用“万”“亿”等中文单位，百分数并列时“%”不省，例如：**123,456,023 → 123 456 023；fifty million → 5 000万；1-2 per cent → 1%-2 %；five percentage points → 5个百分点。**`
 5. `Project Rules`: Here you can specify your rules for certain types of projects
    - For example, if you are translation a SR document, you may add such rules as: `句首人名不翻译；said翻译成“说”`.
-7. `Temperature`: Yu can tweak this figure to see if the result meets your expection. The lower this figure is, the less random and creative the result will be. For translation, a figure between 1 to 1.3 will be a reasonable. 
+7. `Temperature`: You can tweak this figure to see if the result meets your expection. The lower this figure is, the less random and creative the result will be. For translation, a figure between 1 to 1.3 will be a reasonable. 
 8. `Top_p`: Let's keep this figure unchanged.
 9. `Max tokens`: You don't need to change this figure either. Default to 2000.
 ## Use the script in eLuna
