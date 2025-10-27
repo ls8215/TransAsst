@@ -9,6 +9,7 @@
 2. Click [**API Keys**](https://platform.deepseek.com/api_keys) on the left side of the page
 3. Click `创建API Key`, enter any name for the API, and click `创建`
 4. Copy and save the generated API key in a secure place
+5. Click `充值` on the left side of the page, and make a small payment for your account
 ## Install the TamperMonkey extension
 1. If you are using the Chrome browser, click: [https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
 2. If you are using the Edge browser, click: [https://microsoftedge.microsoft.com/addons/detail/%E7%AF%A1%E6%94%B9%E7%8C%B4/iikmkjmpaadaobahmlepeloendndfphd?hl=zh-CN](https://microsoftedge.microsoft.com/addons/detail/%E7%AF%A1%E6%94%B9%E7%8C%B4/iikmkjmpaadaobahmlepeloendndfphd?hl=zh-CN)
